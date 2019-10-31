@@ -39,10 +39,8 @@ WHERE startTime > '2019-06-06' AND inningsPitched > 3.9
 ORDER BY earnedRuns DESC
 LIMIT 5;
 
-SELECT concat (firstName, ' ', lastName) AS 'Full Name', Position, 
-	   abbreviation AS 'Team Abrbreviation', hittingStats.doubles, 
-       games.startTime, games.homeTeamId AS 'Home Team', 
-       games.awayTeamId AS 'Away Team'
+SELECT concat (firstName, ' ', lastName) AS 'Full Name', Position, hittingStats.doubles, 
+startTime, HomeTeam.abbreviation AS 'Home Team',AwayTeam.abbreviation AS 'Away Team'
        
 	FROM players
 		JOIN teams
@@ -51,8 +49,10 @@ SELECT concat (firstName, ' ', lastName) AS 'Full Name', Position,
 			ON players.id = hittingStats.playerId
 		JOIN games
 			ON hittingStats.gameId = games.id
+		JOIN teams HomeTeam
+			ON games.homeTeamId = HomeTeam.id
+		JOIN teams AwayTeam
+			ON games.awayTeamId = AwayTeam.id
 			WHERE startTime > '2019-06-06'
             ORDER BY doubles DESC
 			LIMIT 5;
-            
-            
